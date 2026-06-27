@@ -4,6 +4,8 @@ A multi-tenant SaaS platform for configurable approval workflows — the kind of
 
 Built as a full-stack system from the database up: PostgreSQL with row-level security, a Node/Express/TypeScript API, and a React/TypeScript frontend, packaged to run with a single `docker compose up`.
 
+![UserHomepage](docs/UserHomepage.png)
+
 > **Why this project exists:** I built this to understand, end to end, how a real production-shaped web application is architected — not a tutorial clone, but a system with genuine multi-tenancy, a non-trivial state machine, a real authorization model, and a deployment story. The most interesting parts of this README are the **architecture** and **key design decisions** sections, because they explain the *reasoning*, not just the result.
 
 ---
