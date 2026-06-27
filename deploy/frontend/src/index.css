@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  /* Neutrals carry almost everything — this is a dense administrative
+     tool, not a marketing page, so restraint is the right call. The one
+     deliberate accent (amber) is reserved for "this is the active stage,
+     it needs you" — the single fact every page in this product exists to
+     surface clearly. Approve/reject keep conventional green/red: this is
+     not a place to be clever, people's safety reading of those colors
+     matters more than visual distinctiveness. */
+  --color-ink: #1c1b1a;
+  --color-paper: #fafaf8;
+  --color-line: #e4e2dd;
+  --color-muted: #8a8780;
+  --color-accent: #b5742a;
+  --color-accent-soft: #f5e9da;
+  --color-approve: #2f6e4f;
+  --color-approve-soft: #e6f1ea;
+  --color-reject: #a33d2e;
+  --color-reject-soft: #f6e8e5;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+}

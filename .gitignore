@@ -1,0 +1,48 @@
+# ---------------------------------------------------------------------------
+# Dependencies — never committed. Regenerated from package.json + lockfile
+# via `npm install`. These folders are huge and machine-specific.
+# ---------------------------------------------------------------------------
+node_modules/
+**/node_modules/
+
+# ---------------------------------------------------------------------------
+# Secrets — the important one. Anything with real credentials stays local and
+# NEVER goes to GitHub. .env files hold passwords, tokens, and API keys.
+# (.env.example IS committed — it documents the shape without real values.)
+# ---------------------------------------------------------------------------
+.env
+**/.env
+.env.local
+**/.env.local
+.env.*.local
+
+# ---------------------------------------------------------------------------
+# Build output — generated from source, not committed.
+# ---------------------------------------------------------------------------
+dist/
+**/dist/
+dist-run/
+**/dist-run/
+build/
+*.tsbuildinfo
+
+# ---------------------------------------------------------------------------
+# Local document storage (the filesystem storage backend writes here).
+# ---------------------------------------------------------------------------
+storage/
+**/storage/
+
+# ---------------------------------------------------------------------------
+# Logs and runtime junk.
+# ---------------------------------------------------------------------------
+*.log
+npm-debug.log*
+logs/
+
+# ---------------------------------------------------------------------------
+# Editor / OS files.
+# ---------------------------------------------------------------------------
+.DS_Store
+.vscode/
+.idea/
+*.swp

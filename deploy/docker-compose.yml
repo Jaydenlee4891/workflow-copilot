@@ -1,0 +1,62 @@
+# Workflow Copilot — full stack in one command: `docker compose up`.
+#
+# Brings up three services:
+#   db        Postgres, with schema.sql + seed.sql auto-loaded on first boot
+#   backend   Node/Express API, waits for db to be healthy
+#   frontend  nginx serving the built SPA and proxying /api to backend
+#
+# After `docker compose up`, open http://localhost:8080
+#   tenant login: tenant id 11111111-1111-1111-1111-111111111111,
+#                 jane@acme.com / password123
+#   platform login (/admin/login): onboarding@workflowcopilot.com / password123
+#
+# NOTE: the default passwords and JWT secret below are for local/dev use.
+# Change them (and the Postgres credentials) before any real deployment.
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: workflow_copilot
+    # schema.sql then seed.sql run automatically on FIRST boot only (when the
+    # data volume is empty). Filenames are applied in alphabetical order, so
+    # the numeric prefixes guarantee schema-before-seed.
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db/01-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./db/02-seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d workflow_copilot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # The app roles (app_user / platform_admin_user) are created by
+      # schema.sql with password 'changeme'. Connect as those, not postgres.
+      DATABASE_URL: postgresql://app_user:changeme@db:5432/workflow_copilot
+      PLATFORM_DATABASE_URL: postgresql://platform_admin_user:changeme@db:5432/workflow_copilot
+      JWT_SECRET: change-me-in-production
+      PORT: 3000
+      STORAGE_DIR: /data/storage
+    # Persist uploaded documents across restarts (filesystem storage).
+    volumes:
+      - document-storage:/data/storage
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+
+volumes:
+  db-data:
+  document-storage:
